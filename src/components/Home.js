@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Container, Row, Col, Dropdown, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import { isUserAdmin } from '../utils/JwtUtils';
+import { FaTrash } from 'react-icons/fa';
 
 function Home({ auth }) {
   const [selectedCity, setSelectedCity] = useState('');
@@ -87,7 +88,7 @@ function Home({ auth }) {
       setReports(response.data);
       setLoading(false);
     })
-    .catch(err => {
+    .catch(() => {
       setLoading(false);
       setError('Failed to fetch reports');
     });
@@ -106,7 +107,7 @@ function Home({ auth }) {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         }
       })
-      .then(response => {
+      .then(() => {
         setReports(prevReports =>
             prevReports.map(report =>
                 report.id === problemId
@@ -117,9 +118,28 @@ function Home({ auth }) {
         setError('');
         alert('Status updated successfully!');
       })
-      .catch(err => {
-        setError('Failed to update report');
+      .catch(() => {
+        setError('Failed to update report.');
       });
+  };
+
+  const deleteReport = (problemId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this report?');
+    if (confirmDelete)
+    {
+      axios.delete(`https://smartcity.azurewebsites.net/api/Reports/city/${selectedCity}/problem/${problemId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      })
+      .then(() => {
+        setReports(prevReports => prevReports.filter(report => report.id !== problemId));
+        alert('Report deleted successfully!');
+      })
+      .catch(() => {
+        setError('Failed to delete report.');
+      });
+    }
   };
 
   const filteredReports = selectedStatus && selectedStatus !== 'All'
@@ -197,6 +217,14 @@ function Home({ auth }) {
                       <span>{convertApiProblemStatusToString(report.status)}</span>
                     )}
                   </Card.Text>
+                  {isUserAdmin() && (
+                    <FaTrash
+                      style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }}
+                      onClick={() => {
+                        deleteReport(report.id);
+                      }}
+                    />
+                  )}
                 </Card.Body>
               </Card>
             ))
