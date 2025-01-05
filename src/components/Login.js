@@ -24,7 +24,7 @@ function Login({ setAuth }) {
       })
       .catch(err => {
         setLoading(false);
-        setError('Invalid email or password');
+        setError('Invalid email or password.');
       });
   };
 

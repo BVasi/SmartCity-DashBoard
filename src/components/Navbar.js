@@ -7,6 +7,9 @@ function NavbarComponent() {
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand as={Link} to="/">Smart City Dashboard</Navbar.Brand>
       <Nav className="ml-auto">
+        <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+      </Nav>
+      <Nav className="ml-auto">
         <Nav.Link as={Link} to="/login">Login</Nav.Link>
       </Nav>
     </Navbar>

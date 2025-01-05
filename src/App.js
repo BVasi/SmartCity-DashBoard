@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
+import SignUp from './components/Signup';
 import ProtectedRoute from './components/ProtectedRoute';
 import { isJwtExpired } from './utils/JwtUtils';
 
@@ -40,6 +41,10 @@ function App() {
         <Route
           path="/login"
           element={<Login setAuth={setAuth} />}
+        />
+        <Route
+          path="/signup"
+          element={<SignUp setAuth={setAuth} />}
         />
       </Routes>
     </Router>
