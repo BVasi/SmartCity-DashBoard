@@ -27,9 +27,14 @@ function SeeReports({ auth }) {
       setReports(response.data);
       setLoading(false);
     })
-    .catch(() => {
+    .catch(error => {
       setLoading(false);
-      setError('Failed to fetch reports');
+      if (error.response && error.response.status === 404)
+      {
+        setError('No reports found for this city.');
+        return;
+      }
+      setError('Failed to fetch reports.');
     });
   };
 
@@ -57,7 +62,22 @@ function SeeReports({ auth }) {
         setError('');
         alert('Status updated successfully!');
       })
-      .catch(() => {
+      .catch(error => {
+        if (error.response && error.response.status === 401)
+        {
+          setError('You are not authorized to create a report. Please log in and try again.');
+          return;
+        }
+        if (error.response && error.response.status === 404)
+        {
+          setError('The report you are trying to update does not exist.');
+          return;
+        }
+        if (error.response && error.response.status === 409)
+        {
+          setError('The report you are trying to update is already in the requested status.');
+          return;
+        }
         setError('Failed to update report.');
       });
   };
@@ -75,7 +95,17 @@ function SeeReports({ auth }) {
         setReports(prevReports => prevReports.filter(report => report.id !== problemId));
         alert('Report deleted successfully!');
       })
-      .catch(() => {
+      .catch(error => {
+        if (error.response && error.response.status === 401)
+        {
+          setError('You are not authorized to delete a report. Please log in and try again.');
+          return;
+        }
+        if (error.response && error.response.status === 404)
+        {
+          setError('The report you are trying to delete does not exist.');
+          return;
+        }
         setError('Failed to delete report.');
       });
     }

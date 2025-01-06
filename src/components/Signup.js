@@ -41,9 +41,14 @@ function SignUp() {
         setSuccess('Account created successfully! Redirecting to login...');
         navigate('/login')
       })
-      .catch((err) => {
+      .catch(error => {
         setLoading(false);
-        setError('Failed to sign up. Please check the provided details.');
+        if (error.response && error.response.status === 409)
+        {
+          setError('An account with this email already exists.');
+          return;
+        }
+        setError('Failed to sign up.');
       });
   };
 

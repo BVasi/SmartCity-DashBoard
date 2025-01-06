@@ -61,8 +61,18 @@ function AddReport() {
           setSuccess('Report submitted successfully!');
           navigate('/');
         })
-        .catch(() => {
+        .catch(error => {
           setLoading(false);
+          if (error.response && error.response.status === 400)
+          {
+            setError(`Street ${formData.street} does not exist in city ${formData.city}.`);
+            return;
+          }
+          if (error.response && error.response.status === 401)
+          {
+            setError('You are not authorized to create a report. Please log in and try again.');
+            return;
+          }
           setError('Failed to submit the report. Please try again.');
         });
     };

@@ -22,9 +22,14 @@ function Login({ setAuth }) {
         setAuth(true);
         navigate('/');
       })
-      .catch(err => {
+      .catch(error => {
         setLoading(false);
-        setError('Invalid email or password.');
+        if (error.response && error.response.status === 401)
+        {
+          setError('Invalid email or password.');
+          return;
+        }
+        setError('Failed to login, please try again.');
       });
   };
 
