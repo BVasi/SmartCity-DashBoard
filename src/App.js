@@ -6,6 +6,8 @@ import Login from './components/Login';
 import SignUp from './components/Signup';
 import ProtectedRoute from './components/ProtectedRoute';
 import { isJwtExpired } from './utils/JwtUtils';
+import SeeReports from './components/SeeReports';
+import AddReport from './components/AddReport';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -37,6 +39,14 @@ function App() {
         <Route
           path="/"
           element={<ProtectedRoute auth={auth} component={Home} />}
+        />
+        <Route
+          path="/addReport"
+          element={<ProtectedRoute auth={auth} component={AddReport} />}
+        />
+        <Route
+          path="/seeReports"
+          element={<ProtectedRoute auth={auth} component={SeeReports} />}
         />
         <Route
           path="/login"

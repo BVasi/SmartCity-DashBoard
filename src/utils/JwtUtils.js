@@ -31,3 +31,19 @@ export const isJwtExpired = () => {
         return true;
     }
 }
+
+export const getUserEmail = () => {
+    const token = localStorage.getItem('authToken');
+    if (!token)
+    {
+        return false;
+    }
+    try
+    {
+        const decodedToken = jwtDecode(token);
+        return decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+    } catch (error)
+    {
+        return false;
+    }
+}

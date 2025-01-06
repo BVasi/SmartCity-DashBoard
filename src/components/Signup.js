@@ -27,6 +27,7 @@ function SignUp() {
     setLoading(true);
     setError('');
     setSuccess('');
+
     axios.post('https://smartcity.azurewebsites.net/api/Users/signup', {
         FirstName: formData.firstName,
         LastName: formData.lastName,
