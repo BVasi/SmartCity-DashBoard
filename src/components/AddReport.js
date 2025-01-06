@@ -21,11 +21,12 @@ function AddReport() {
     const navigate = useNavigate();
 
     useEffect(() => {
-      if (!isUserAdmin())
+      const userIsAdmin = isUserAdmin();
+      if (!userIsAdmin)
       {
         setFormData((prev) => ({ ...prev, reporterEmail: getUserEmail() }));
       }
-    }, [isUserAdmin()]);
+    }, []);
 
     const handleChange = (e) => {
       const { name, value } = e.target;
