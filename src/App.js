@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { isJwtExpired } from './utils/JwtUtils';
 import SeeReports from './components/SeeReports';
 import AddReport from './components/AddReport';
+import SignOut from './components/Signout';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -55,6 +56,10 @@ function App() {
         <Route
           path="/signup"
           element={<SignUp setAuth={setAuth} />}
+        />
+        <Route
+          path="/signout"
+          element={<SignOut setAuth={setAuth} />}
         />
       </Routes>
     </Router>
